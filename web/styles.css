@@ -990,7 +990,7 @@ h3 {
   gap: 1rem;
 }
 
-.wallet-panel__head,
+.wallet-panel__head[hidden],
 .wallet-account[hidden] {
   display: none !important;
 }

@@ -290,13 +290,14 @@ test("project information page is served with its three section anchors", async 
   assert.doesNotMatch(html, /id="homepage-connect"/);
 });
 
-test("shared primary and footer navigation contain only Overview and Token", async () => {
+test("shared primary and footer navigation contain Overview, Token, and Support", async () => {
   const expectedLinks = [
     ["/", "Overview"],
-    ["/project-information", "Token"]
+    ["/project-information", "Token"],
+    ["/support", "Support"],
   ];
 
-  for (const route of ["/", "/project-information"]) {
+  for (const route of ["/", "/project-information", "/support"]) {
     const html = await (await fetch(`${base}${route}`)).text();
     const menus = [...html.matchAll(/<nav class="(?:site-nav|footer-nav)"[^>]*>([\s\S]*?)<\/nav>/g)];
     assert.equal(menus.length, 2, `${route} has primary and footer navigation`);
