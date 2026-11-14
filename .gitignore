@@ -22,3 +22,8 @@ deployments/.*.lock
 dist/
 build/
 .next/
+
+# Cloudflare local secrets
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
