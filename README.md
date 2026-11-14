@@ -73,6 +73,15 @@ The upstream endpoint is set with `SOLANA_RPC_URL` (or `HELIUS_API_KEY` for a
 Helius Mainnet endpoint); the key stays on the server and is never served to the
 browser.
 
+For Cloudflare Workers, `wrangler.jsonc` sends only `/api/*` requests through
+the Worker first; the static site files are served directly by the Workers
+Assets binding. No RPC variable is required to use the public Solana Mainnet
+endpoint. To use a dedicated provider, configure either `SOLANA_RPC_URL` or
+`HELIUS_API_KEY` in the preview Worker environment; save a URL containing a
+credential or a Helius key as a secret, not a plain variable. `USOL_RPC_TIMEOUT_MS`
+is optional (default 15000). `PORT` and `HOST` apply only to the local Node
+website server, not the Worker.
+
 The wallet panel does not sign messages or transactions, transfer tokens, buy or
 sell tokens, or execute swaps. Future transaction functionality, including token
 swaps, requires separate technical review and explicit owner approval.

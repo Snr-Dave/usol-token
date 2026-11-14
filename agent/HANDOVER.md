@@ -2,6 +2,15 @@
 
 This is the living, factual handover for any developer, agent, or assistant taking over the project. Read it with the root [AGENT.md](../AGENT.md), [SKILL.md](SKILL.md), [WEBSITE_ARCHITECTURE.md](WEBSITE_ARCHITECTURE.md), and [V0_INSTRUCTIONS.md](V0_INSTRUCTIONS.md). The root instructions govern where applicable. Record new verified work at the top of the relevant history; do not erase or rewrite prior handover history to imply that unverified work was completed.
 
+## 2026-11-14 Cloudflare preview and dependency audit
+
+- **Branch:** `feat/cloudflare-worker-deployment`, based on the checked-out remote tracking branch. No commit or push was made.
+- **Changed:** `wrangler.jsonc` now sends only `/api/*` requests through the Worker first. Static content is left to the Workers Assets binding, avoiding a Worker/asset fallback cycle on preview requests. `README.md` documents the Worker routing and optional RPC configuration.
+- **RPC configuration:** optional `SOLANA_RPC_URL` takes precedence over `HELIUS_API_KEY`; otherwise the Worker uses `https://api.mainnet-beta.solana.com`. `USOL_RPC_TIMEOUT_MS` is optional (15000 ms default). Save an API key or credential-bearing URL as a Cloudflare secret. `PORT` and `HOST` are for the local Node server only.
+- **Dependency audit:** `npm audit` reported 14 vulnerable transitive package instances (3 high, 11 moderate) through the current Solana 1.x dependency tree: `bigint-buffer`, `stream-json`, and `uuid`. No dependency edits were made because npm's suggested forced fix downgrades `@solana/spl-token` to 0.1.8; no compatible non-breaking remediation was identified. All six direct dependencies are used; updates shown by `npm outdated` are major-version updates only.
+- **Validation:** post-change `npx wrangler deploy --dry-run` succeeded. Local `wrangler dev --local` checks returned 200 for `/`, `/styles.css`, `/wallet-core.js`, and `/assets/brand/usol-logo.png` with no redirects; malformed `POST /api/rpc` returned 400 and an unknown path returned 404. `npm run test:offline` passed 14/14 and `npm run test:web` passed 50/50. `git diff --check` passed.
+- **Not performed:** no live RPC, wallet, Cloudflare dashboard change, deploy, commit, push, production change, or blockchain transaction.
+
 ## A. Project identity
 
 - **Project:** UnitedSOLANA (USOL), an existing Classic SPL Token on Solana Mainnet and its public information website.
